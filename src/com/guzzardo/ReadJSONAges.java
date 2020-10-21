@@ -36,7 +36,6 @@ public class ReadJSONAges {
                     resultLine.append(inputLine);
                 }
 
-                String ages = resultLine.toString();
                 String originalJsonString = resultLine.toString(); //assign your JSON String here
                 StringBuilder correctedJsonString = new StringBuilder(originalJsonString);
                 int beginIndex = 0;
@@ -44,11 +43,14 @@ public class ReadJSONAges {
                 String searchString = ", key=";
                 int fromIndex = correctedJsonString.indexOf("key=", beginIndex);
 
+                // remove starting and ending double quotes from key/age pairs
                 correctedJsonString.delete(fromIndex-1, fromIndex);
                 correctedJsonString.delete(correctedJsonString.length()-2, correctedJsonString.length()-1);
+                // insert JSON array brackets into key/age pairs
                 correctedJsonString.insert(fromIndex-1, "[{");
                 correctedJsonString.insert(correctedJsonString.length(), "]}");
 
+                // insert braces to delimit JSON object elements
                 while (beginIndex < originalJsonString.length()) {
                     fromIndex = correctedJsonString.indexOf(searchString, beginIndex);
                     if (fromIndex < 0)
